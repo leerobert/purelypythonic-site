@@ -37,6 +37,9 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'main',
+    'blog',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -52,10 +55,22 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'ppsite.urls'
 
+########### STATIC SETUP ############
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'assets'),
+)
+STATICFILES_FINDERS = ( 
+    'django.contrib.staticfiles.finders.FileSystemFinder', 
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder', 
+)
+#####################################
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'assets', 'templates'),],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
