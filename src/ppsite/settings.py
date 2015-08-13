@@ -15,18 +15,20 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'jlhz5xg!al82)2i%^0%mae(iz1v9k^1hb*&p%qftztp!7w^w0='
-
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = True if not os.getenv('PRODUCTION', None) else False
 
-ALLOWED_HOSTS = []
-
+if DEBUG:
+    # SECURITY WARNING: keep the secret key used in production secret!
+    SECRET_KEY = 'jlhz5xg!al82)2i%^0%mae(iz1v9k^1hb*&p%qftztp!7w^w0='
+    ALLOWED_HOSTS = []
+else:
+    with open('/etc/purelypythonic/secret_key.txt') as f:
+        SECRET_KEY = f.read().strip()
+    ALLOWED_HOSTS = ['purelypythonic.com', 'www.purelypythonic.com']
 
 # Application definition
 
@@ -114,6 +116,6 @@ STATIC_URL = '/static/'
 # EMAIL SETUP
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'purelypythonic@gmail.com'
-EMAIL_HOST_PASSWORD = 'your_gmail_password'
+EMAIL_HOST_PASSWORD = os.getenv('GMAIL_PASSWORD', 'NONEYABUSINESS')
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True

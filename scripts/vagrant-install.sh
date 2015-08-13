@@ -74,3 +74,11 @@ sudo service nginx start
 cp /vagrant/scripts/files/deploy /etc/nginx/sites-available/
 sudo ln -s /etc/nginx/sites-available/deploy /etc/nginx/sites-enabled/deploy
 sudo service nginx restart
+
+################
+## PRODUCTION ##
+################
+
+echo "PRODUCTION=true" >> /etc/environment 
+# echo the gmail password environment as well
+# echo "GMAIL_PASSWORD=passwordhere" >> /etc/environment
