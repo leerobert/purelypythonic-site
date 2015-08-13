@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.core.mail import send_mail 
 from django.utils import timezone
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
@@ -29,4 +30,18 @@ def projects(request):
 	return render(request, 'main/projects.html', {})
 
 def contact(request):
-	return render(request, 'main/contact.html', {})
+	sent_email = False
+
+	if request.method == 'POST':
+		name = request.POST.get('name', '')
+		email = request.POST.get('email', None)
+		message = request.POST.get('message', '')
+
+		# if they gave an email address, send an email
+		if email:
+			send_mail('New Contact Email from ' + name, message, 
+				email, ['purelypythonic@gmail.com'], fail_silently=False)
+			sent_email = True
+
+	return render(request, 'main/contact.html', 
+				{'sent_email': sent_email})
